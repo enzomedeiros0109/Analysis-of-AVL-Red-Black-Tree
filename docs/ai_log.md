@@ -36,3 +36,31 @@
 - Deleted the untracked `binary-search-tree/` folder (user approved).
 
 **Files changed:** `CLAUDE.md` (new), `docs/ai_log.md` (new), `binary-search-tree/` (deleted).
+
+## 2026-11-23 — AVL tree implementation
+
+**Prompt:**
+
+> Context:
+> An AVL tree is a height-balanced binary search tree: for each node \(x\), the difference between the heights of the left and right subtrees of \(x\) is at most 1. To implement an AVL tree, we maintain an extra attribute \(h\) in each node such that \(x.h\) is the height of node \(x\). As with any other binary search tree \(T\), we assume that \(T.root\) points to the root node.
+> Following @CLAUDE.md , do:
+>
+> Change @src/avl/avl-tree.h and @src/avl/avl-tree.c  so it becomes an AVL Tree.
+
+**Response summary:**
+
+- Replaced the plain BST with an AVL tree. `AVLNode` stores `key`, `height` (x.h, counting nodes: leaf = 1) and
+  children; `AVLTree` stores `root` (T.root) and the `rotations` counter.
+- Public API: `avl_init`, `avl_insert`, `avl_search`, `avl_get_height`, `avl_get_rotations`, `avl_validate`, `avl_free`.
+  Removed delete and print functions (remove is out of scope).
+- Recursive insert that calls `rebalance` on every node on the way back up. `rebalance` handles the four cases
+  LL (right rotation), LR (left on child + right = 2 rotations), RR (left rotation), RL (right on child + left = 2 rotations).
+  Each single rotation increments `tree->rotations`. Duplicate keys are ignored.
+- Iterative search returning `bool`. Height read from `root->height` in O(1).
+- Validation recomputes heights bottom-up, checking BST property with (lower, upper) bounds first, then stored height,
+  then balance factor in [-1, 1]; prints the reason to stderr on failure.
+- Tested with a scratch program (not in the repo): ascending/descending/random up to n = 1,000,000 pass validation,
+  all searches correct, heights within AVL bounds, LL = 1 rotation, LR/RL = 2 rotations, corrupted trees rejected.
+- Updated CLAUDE.md with the new branch name (`feature/avl-tree`) and file names.
+
+**Files changed:** `src/avl/avl-tree.h`, `src/avl/avl-tree.c`, `CLAUDE.md`, `docs/ai_log.md`.

@@ -9,7 +9,7 @@ and `src/theoretical_graphics.py` are **references**: keep the same overall stru
 ## Working rules
 
 - **Never commit, push, or merge.** The user makes all commits. Creating/switching branches is allowed.
-- Branches: `feature/avl` first (AVL only), then `feature/red-black`. Do not start the Red-Black tree until asked.
+- Branches: `feature/avl-tree` first (AVL only), then a branch for the Red-Black tree. Do not start the Red-Black tree until asked.
 - **No comments or docstrings in any code** (C, Python, Makefile). Explanations go in the chat, not in the code.
 - **Explain every step.** The oral exam is eliminatory: the user must be able to explain every line. After each
   implementation step, explain in the chat what was done and why (e.g. where each AVL case LL/RR/LR/RL is handled
@@ -39,7 +39,7 @@ data/                   generated CSVs, tables, charts
 docs/                   spec PDF, ai_log.md
 ```
 
-`src/avl/bst.c|h` and `src/red-black/bst.c|h` are a plain BST used as a starting point. Both trees are linked into one
+Tree files: `src/avl/avl-tree.c|h` and `src/red-black/red-black-tree.c|h` (both started from a plain BST). Both trees are linked into one
 executable, so public symbols must be prefixed (`avl_*`, `rb_*`) and types distinct (`AVLNode`/`AVLTree`, `RBNode`/`RBTree`).
 
 ## Tree requirements (each tree)
