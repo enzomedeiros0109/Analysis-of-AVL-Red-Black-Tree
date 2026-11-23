@@ -1,0 +1,67 @@
+# Insertion Sort and Merge Sort Analysis
+
+This project compares the execution times of Insertion Sort and Merge Sort in three scenarios: best case, average case, and worst case. The C program measures each combination of algorithm and input size 50 times. The Python scripts calculate the mean, standard deviation, 95% confidence interval, minimum, and maximum, then generate tables, comparison charts, and per-algorithm theoretical-model charts.
+
+## How to run
+
+Start from the project root. You need GCC and Python 3. To generate new measurements, go to src, compile and run the C program:
+
+```bash
+cd src
+gcc -o main main.c
+./main
+```
+
+This step is optional if you already have raw CSV files in `data/insertion` and `data/merge`. It can take several hours and overwrites those files.
+
+Prepare the Python environment once, still from the project root:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements.txt
+```
+
+On Ubuntu/Debian, if creating the environment fails because `ensurepip` is missing, install `python3-venv` with `sudo apt install python3-venv`.
+
+Enter `src` and run the table script before the two chart scripts:
+
+```bash
+cd src
+python table.py
+python graphics.py
+python theoretical_graphics.py
+```
+
+## Project structure
+
+```text
+.
+├── src/
+│   ├── main.c                  # Benchmarks and raw CSV generation
+│   ├── table.py                # Statistics, CSV tables, and table images
+│   ├── graphics.py             # Comparative charts
+│   └── theoretical_graphics.py # Measured times and theoretical models
+├── data/                       # Benchmark data, tables, and charts
+│   ├── insertion/              # Raw Insertion Sort measurements
+│   ├── merge/                  # Raw Merge Sort measurements
+│   ├── tables/
+│   │   └── {algorithm}/{case}/
+│   │       ├── tabela.csv
+│   │       └── table_{algorithm}_{case}.png
+│   └── graphics/
+│       ├── {case}/
+│       │   └── graph_insertion_merge_{case}.png
+│       ├── insertion_theoretical/
+│       │   └── graph_insertion_theoretical_{case}.png
+│       └── merge_theoretical/
+│           └── graph_merge_theoretical_{case}.png
+├── docs/
+│   └── Atividade_Prática_de_implementação_Insertion_Sort_e_Merge_Sort.pdf
+├── requirements.txt            # Python dependencies
+└── README.md
+```
+
+## Benchmark environment
+
+> **Note:** The machine used for this project reports a 13th Gen Intel Core i5-13420H (6 cores, 12 threads), Ubuntu 26.04.1 LTS running in WSL2, and about 11 GiB of RAM available to Linux. GCC 15.2.0 installed. CPU performance, available memory, the operating environment, compiler settings, and background activity directly affect the execution times in the benchmark data included in this repository. Running the benchmarks on another computer may produce different results.
