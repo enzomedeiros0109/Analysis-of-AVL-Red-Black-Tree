@@ -64,3 +64,28 @@
 - Updated CLAUDE.md with the new branch name (`feature/avl-tree`) and file names.
 
 **Files changed:** `src/avl/avl-tree.h`, `src/avl/avl-tree.c`, `CLAUDE.md`, `docs/ai_log.md`.
+
+## 2026-11-23 — Questions about `validate_node` bounds
+
+**Prompt 1:**
+
+> why use long long lower and long long upper in validate_node?
+
+**Response summary:** The bounds are exclusive (`lower < key < upper`) and the root needs bounds acting as −∞/+∞.
+With `int`, the best starting values would be `INT_MIN`/`INT_MAX`, which are themselves valid keys, so a tree
+containing them would be falsely rejected. `LLONG_MIN`/`LLONG_MAX` lie outside the `int` range, and the `int` key
+converts to `long long` without loss, so the strict comparisons are correct for any key. Each child inherits the bounds
+of all its ancestors. Also pointed out that the user's edit removed `#include <stdbool.h>` from `avl-tree.h` while the header
+still uses `bool`, which fails to compile with `-std=c11`.
+
+**Prompt 2:**
+
+> But couldn't lower and upper be int?
+
+**Response summary:** Yes, three ways: (1) `int` with sentinels 0 and `INT_MAX` — works for this benchmark (keys 1..n)
+but wrongly rejects trees with other keys; (2) inclusive bounds with `key - 1`/`key + 1` — signed overflow (undefined
+behavior) at `INT_MIN`/`INT_MAX` unless guarded; (3) `int` pointers (or flags) where `NULL` means "no bound" — correct
+in general at the cost of an extra condition. `long long` was chosen as the simplest version that is correct for every key;
+offered to switch to option 3.
+
+**Files changed:** `docs/ai_log.md`.

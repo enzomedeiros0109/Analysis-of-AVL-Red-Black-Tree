@@ -84,6 +84,7 @@ static AVLNode *rebalance(AVLTree *tree, AVLNode *node) {
     return node;
 }
 
+// Insert de Árvore Binária mas com balanceamento
 static AVLNode *insert_node(AVLTree *tree, AVLNode *node, int key) {
     if (node == NULL) {
         return create_node(key);

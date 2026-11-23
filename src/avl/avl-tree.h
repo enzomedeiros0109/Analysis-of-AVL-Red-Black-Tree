@@ -1,6 +1,7 @@
 #ifndef AVL_TREE_H
 #define AVL_TREE_H
 
+#include <stdbool.h>
 
 typedef struct AVLNode {
     int key;
